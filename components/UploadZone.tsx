@@ -49,7 +49,7 @@ export default function UploadZone({
     return (
         <div
             {...getRootProps()}
-            className={`rounded-2xl sm:rounded-3xl md:rounded-4xl w-full max-w-md md:w-96 lg:w-110 h-auto min-h-75 sm:h-60 md:h-70 lg:h-85 text-center cursor-pointer transition-all shadow-lg hover:shadow-xl grid justify-center items-center p-4 sm:p-6 md:p-8 mx-auto sm:mx-0`}
+            className={`rounded-2xl sm:rounded-3xl md:rounded-4xl w-full max-w-md md:w-96 lg:w-110 h-auto min-h-75 sm:h-60 md:h-70 lg:h-85 text-center cursor-pointer transition-all shadow-[0_0_20px_rgba(0,0,0,0.15)] hover:shadow-[0_0_30px_rgba(0,0,0,0.25)] grid justify-center items-center p-4 sm:p-6 md:p-8 mx-auto sm:mx-0`}
         >
             <input {...getInputProps()} ref={fileInputRef} />
             
