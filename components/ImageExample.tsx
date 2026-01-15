@@ -5,7 +5,7 @@ const ImageExample = () => {
     return (
         <div className='w-full md:w-100 grid justify-center items-center overflow-x-hidden'>
             {/* Image Container */}
-            <div className="relative w-[96%] lg:w-90 xl:w-100 h-68 md:h-56 lg:h-64 xl:h-70 overflow-hidden rounded-3xl md:rounded-4xl grid justify-center items-center mx-auto">
+            <div className="relative w-[85%] lg:w-90 xl:w-100 h-68 md:h-56 lg:h-64 xl:h-70 overflow-hidden rounded-3xl md:rounded-4xl grid justify-center items-center mx-auto">
                 <Image
                     src="https://i.pinimg.com/736x/95/ee/ef/95eeef6857b8bcf7aca641eb02274d73.jpg"
                     alt="HEIC to JPG example"
