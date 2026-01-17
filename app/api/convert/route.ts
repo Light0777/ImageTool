@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         headers: {
           'Content-Type': 'multipart/form-data',
           // Add your API key here
-          'x-api-key': process.env.API_KEY || '',
+          'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
         },
         responseType: 'stream',
       }

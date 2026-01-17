@@ -48,3 +48,13 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   border: none;
 }
+
+/* In your global.css or component style tag */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}

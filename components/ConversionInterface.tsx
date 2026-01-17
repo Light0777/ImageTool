@@ -298,7 +298,7 @@ export default function ConversionInterface({ files: initialFiles, onBack }: Con
       </header>
       <div className='h-20'></div>
 
-      <div className="grid sm:flex gap-8 justify-center items-center overflow-hidden">
+      <div className="grid gap-8 justify-center items-center overflow-hidden">
         {/* Left Column - Options */}
         <div className="flex space-y-6 gap-10">
           <FileList
@@ -315,7 +315,7 @@ export default function ConversionInterface({ files: initialFiles, onBack }: Con
           <div className='h-20'></div>
 
 
-        <div className="flex flex-col w-100 absolute">
+        <div className="flex flex-col w-100">
           {hasFiles && (
             <BulkActions
               files={files}

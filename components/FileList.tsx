@@ -27,6 +27,7 @@ export default function FileList({
   onOptionsChange
 }: FileListProps) {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false);
+  const [currentFileIndex, setCurrentFileIndex] = useState(0); // Add this state
 
   // Calculate total size of all files
   const calculateTotalSize = () => {
@@ -38,6 +39,22 @@ export default function FileList({
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(totalBytes) / Math.log(k));
     return parseFloat((totalBytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  // Format individual file size
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  // Get current file
+  const currentFile = files[currentFileIndex];
+
+  const handleCurrentIndexChange = (index: number) => {
+    setCurrentFileIndex(index);
   };
 
   if (files.length === 0) {
@@ -55,16 +72,82 @@ export default function FileList({
 
   return (
     <>
-      <div className="border border-gray-200 rounded-lg w-95">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-xl font-medium flex items-center">
-            <FiImage className="mr-2" /> Selected Files ({files.length})
-          </h3>
-          <div className="flex items-center space-x-2">
+      <div className="rounded-lg w-full">
+        <div className="p-6 flex flex-row items-center justify-between gap-4 w-105 sm:w-full">
+          {/* Desktop version - normal layout */}
+          <div className="hidden sm:flex flex-row items-center gap-4">
+            <div className="bg-gray-50 rounded-lg p-3">
+              <h3 className="text-md font-medium flex items-center">
+                <FiImage className="mr-2" /> Selected Files: {files.length}
+              </h3>
+            </div>
 
+            {/* Individual File Size */}
+            {currentFile && (
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="flex justify-between items-center gap-1">
+                  <span className="text-sm font-medium text-gray-600">
+                    Image Size:
+                  </span>
+                  <span className="text-sm text-gray-800 font-medium">{formatFileSize(currentFile.file.size)}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Total Size */}
+            <div className="bg-gray-50 rounded-lg p-3">
+              <div className="flex justify-between items-center gap-1">
+                <span className="text-sm font-medium text-gray-600">Total Size:</span>
+                <span className="text-sm text-gray-800 font-bold">{calculateTotalSize()}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile version - scrollable with fade effects */}
+          <div className="flex-1 sm:hidden relative overflow-hidden scrollbar-hide">
+            {/* Left fade gradient */}
+            <div className="absolute left-0 top-0 bottom-0 w-6 bg-linear-to-r from-white to-transparent z-10 pointer-events-none"></div>
+
+            {/* Scrollable stats container */}
+            <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pl-25 scrollbar-hide">
+              <div className="flex flex-row items-center gap-2 min-w-max py-2">
+                <div className="bg-gray-50 rounded-lg p-3 shrink-0">
+                  <h3 className="text-sm font-medium flex items-center">
+                    <FiImage className="mr-2" /> Selected: {files.length}
+                  </h3>
+                </div>
+
+                {/* Individual File Size */}
+                {currentFile && (
+                  <div className="bg-gray-50 rounded-lg p-3 shrink-0">
+                    <div className="flex justify-between items-center gap-1">
+                      <span className="text-sm font-medium text-gray-600">
+                        File Size:
+                      </span>
+                      <span className="text-sm text-gray-800 font-medium">{formatFileSize(currentFile.file.size)}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Total Size */}
+                <div className="bg-gray-50 rounded-lg p-3 shrink-0">
+                  <div className="flex justify-between items-center gap-1">
+                    <span className="text-sm font-medium text-gray-600">Total:</span>
+                    <span className="text-sm text-gray-800 font-bold">{calculateTotalSize()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right fade gradient - fades into settings icon area */}
+            <div className="absolute right-0 top-0 bottom-0 w-16 bg-linear-to-l from-white to-transparent z-10 pointer-events-none"></div>
+          </div>
+
+          {/* Settings Icon - positioned for both mobile and desktop */}
+          <div className="flex items-center ml-2 sm:ml-0">
             <button
               onClick={() => setShowSettingsPopup(true)}
-              className="ml-4 p-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center"
+              className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center"
               title="Conversion Settings"
             >
               <FiSettings size={18} />
@@ -77,28 +160,8 @@ export default function FileList({
           <FileItem
             files={files}  // Pass ALL files array
             onPreview={onPreview}
+            onCurrentIndexChange={handleCurrentIndexChange} // Add this prop
           />
-
-          {/* Show total size information */}
-          {files.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="font-medium">Total Files:</span>
-                    <span>{files.length} files</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="font-medium">Total Size:</span>
-                    <span className="font-bold text-gray-800">{calculateTotalSize()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

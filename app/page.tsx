@@ -1012,7 +1012,7 @@ export default function Home() {
   };
 
   return (
-    <main className="h-auto bg-white text-black px-4 md:px-8 font-sans">
+    <main className="h-auto bg-white text-black md:px-8 font-sans">
       <div className="w-full mx-auto">
         {showConversion ? (
           <ConversionInterface 
